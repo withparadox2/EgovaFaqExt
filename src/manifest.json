@@ -1,0 +1,31 @@
+{
+    "name": "Egova Faq",
+    "version": "1.01",
+    "manifest_version": 2,
+    "description": "Fast fast",
+    "browser_action": {
+        "default_icon": "favicon.png",
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "permissions": [
+        "webRequest",
+        "*://developer.android.com/*",
+        "webRequestBlocking"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "http://faq.egova.com.cn:7777/redmine/*"
+            ],
+            "css": [
+                "content.css"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ]
+}
