@@ -24,7 +24,7 @@
                 "content.css"
             ],
             "js": [
-                "content.js"
+                "./js/content.js"
             ]
         }
     ]
