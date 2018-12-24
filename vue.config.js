@@ -2,7 +2,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = {
     configureWebpack: config => {
         config.entry = {
-            content: ["./src/content.js"]
+            content: ["./src/main.js"]
         }
         return {
             plugins: [
@@ -22,5 +22,8 @@ module.exports = {
         config.plugins.delete('preload')
         config.plugins.delete('prefetch')
     },
-    filenameHashing: false
+    filenameHashing: false,
+    css: {
+        extract: false
+    }
 }
