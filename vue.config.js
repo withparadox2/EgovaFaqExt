@@ -18,6 +18,9 @@ module.exports = {
     },
     chainWebpack: config => {
         config.optimization.delete('splitChunks')
+        config.plugins.delete('html')
+        config.plugins.delete('preload')
+        config.plugins.delete('prefetch')
     },
     filenameHashing: false
 }
