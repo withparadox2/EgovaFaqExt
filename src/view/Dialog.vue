@@ -6,13 +6,25 @@
           <span class="faq-title">For Egova Faq</span>
           <tiny-button class="faq-close" @click.native="close" type="light">关闭</tiny-button>
         </div>
-        <input placeholder="请输入姓名..." v-model="searchText" />
+        <input placeholder="请输入姓名..." v-model="searchText">
       </div>
       <div class="faq-value-box" id="value-box-base">
         <item-title v-show="!searchText && historyList.length > 0">历史记录</item-title>
-        <history-item v-for="item in historyList" :key="item.user.label" :item="item" @click.native="clickItem(item.user)"></history-item>
+        <history-item
+          v-for="(item, index) in historyList"
+          :key="index"
+          :item="item"
+          @updateAction="updateHistoryList"
+          @click.native="clickItem(item.user)"
+        ></history-item>
         <item-title>人员列表</item-title>
-        <item v-for="item in dataList" :key="item.label" :item="item" :highlightText="searchText" @click.native="clickItem(item)"></item>
+        <item
+          v-for="item in dataList"
+          :key="item.label"
+          :item="item"
+          :highlightText="searchText"
+          @click.native="clickItem(item)"
+        ></item>
       </div>
     </div>
   </div>
@@ -111,44 +123,53 @@ input:focus {
 }
 </style>
 <script>
-import { getUserList } from '../js/data-parser'
-import { closeDialog } from '../js/helper'
-import { updateHistory, loadHistoryList } from '../js/history'
+import { getUserList } from "../js/data-parser";
+import { closeDialog } from "../js/helper";
+import { updateHistory, loadHistoryList } from "../js/history";
 
-import Item from './Item.vue'
-import ItemTitle from './ItemTitle.vue'
-import TinyButton from './TinyButton.vue'
-import HistoryItem from './HistoryItem.vue'
+import Item from "./Item.vue";
+import ItemTitle from "./ItemTitle.vue";
+import TinyButton from "./TinyButton.vue";
+import HistoryItem from "./HistoryItem.vue";
 
 export default {
   data() {
     return {
-      searchText: ''
-    }
+      searchText: "",
+      historyList: []
+    };
   },
   computed: {
-    historyList() {
-      return loadHistoryList(this.dataList.reduce((store, item) => {
-        store[item.option.value] = item
-        return store
-      }, {}))
-    },
     dataList() {
-      return getUserList()
+      return getUserList();
     }
+  },
+  mounted() {
+    this.updateHistoryList();
   },
   methods: {
     close() {
-      closeDialog()
+      closeDialog();
     },
     clickItem(user) {
-      user.option.selected = true
-      updateHistory(user.option.value)
-      this.close()
+      user.option.selected = true;
+      updateHistory(user.option.value);
+      this.close();
+    },
+    updateHistoryList() {
+      this.historyList = loadHistoryList(
+        this.dataList.reduce((store, item) => {
+          store[item.option.value] = item;
+          return store;
+        }, {})
+      );
     }
   },
   components: {
-    ItemTitle, Item, TinyButton, HistoryItem
+    ItemTitle,
+    Item,
+    TinyButton,
+    HistoryItem
   }
-}
+};
 </script>
