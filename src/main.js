@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import App from './view/Dialog.vue'
-
-const APP_ID_NOHASH = "faq-root"
-const APP_ID = "#" + APP_ID_NOHASH
+import { parseUserListFromNode } from './js/data-parser'
 
 function checkAndUpdate() {
   let selectNode = document.querySelector("#issue_assigned_to_id")
@@ -10,10 +8,16 @@ function checkAndUpdate() {
     return
   }
 
+  if (document.querySelector('#btn-faq-show-dialog')) {
+    return
+  }
+
+  parseUserListFromNode(selectNode)
+
   let selectBtn = buildSelectButton()
   selectNode.parentElement.appendChild(selectBtn)
   selectBtn.onclick = function (event) {
-    if (!document.querySelector(APP_ID)) {
+    if (!document.querySelector('#faq-root')) {
       showSelectPopup()
       bindView()
     }
@@ -23,6 +27,7 @@ function checkAndUpdate() {
 
 function buildSelectButton() {
   let btn = document.createElement('button')
+  btn.id = 'btn-faq-show-dialog'
   btn.style.marginLeft = '10px'
   btn.textContent = '选择'
   return btn
@@ -37,7 +42,7 @@ function showSelectPopup() {
 function bindView() {
   new Vue({
     render: h => h(App),
-  }).$mount(APP_ID)
+  }).$mount('#faq-root')
 }
 
 checkAndUpdate()
