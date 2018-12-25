@@ -5,8 +5,8 @@ const APP_ID_NOHASH = "faq-root"
 const APP_ID = "#" + APP_ID_NOHASH
 
 function checkAndUpdate() {
-  let selectNode = document.querySelector("select[name='issue[assigned_to_id]']")
-  if (!selectNode || selectNode.parentElement.children.length == 3) {
+  let selectNode = document.querySelector("#issue_assigned_to_id")
+  if (!selectNode) {
     return
   }
 
