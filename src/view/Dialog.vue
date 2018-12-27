@@ -13,13 +13,15 @@
       </div>
       <div class="faq-value-box"
            id="value-box-base">
-        <item-title v-show="!searchText && historyList.length > 0">历史记录</item-title>
-        <history-item v-for="(item, index) in historyList"
-                      :key="index"
-                      :item="item"
-                      @updateAction="updateHistoryList"
-                      @click.native="clickItem(item.user)"></history-item>
-        <item-title>人员列表</item-title>
+        <div v-show="showHistory">
+          <item-title>历史记录</item-title>
+          <history-item v-for="(item, index) in historyList"
+                        :key="index"
+                        :item="item"
+                        @updateAction="updateHistoryList"
+                        @click.native="clickItem(item.user)"></history-item>
+        </div>
+        <item-title>{{searchText ? '搜索结果' : '人员列表'}}</item-title>
         <item v-for="item in dataList"
               :key="item.label"
               :item="item"
@@ -141,7 +143,15 @@ export default {
   },
   computed: {
     dataList() {
-      return getUserList()
+      let list = getUserList()
+      return this.searchText
+        ? list.filter(
+            user => user.label.indexOf(this.searchText.toLowerCase()) >= 0
+          )
+        : list
+    },
+    showHistory() {
+      return !this.searchText && this.historyList.length > 0
     }
   },
   mounted() {
