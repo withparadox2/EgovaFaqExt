@@ -1,4 +1,6 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ZipPlugin = require('zip-webpack-plugin')
+const path = require('path')
 module.exports = {
     configureWebpack: config => {
         config.entry = {
@@ -12,7 +14,11 @@ module.exports = {
                     transformPath(targePath, absolutePath) {
                         return Promise.resolve(targePath.replace('src/', ''))
                     }
-                }])
+                }]),
+                new ZipPlugin({
+                    path: path.join(__dirname,'./dist'),
+                    filename: 'dist.zip'
+                })
             ]
         }
     },
