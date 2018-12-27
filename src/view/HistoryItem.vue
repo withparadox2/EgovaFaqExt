@@ -20,9 +20,9 @@
   margin-right: 10px;
 }
 .btn-container {
-    position: absolute;
-    right: 0;
-    top: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 </style>
 <script>
@@ -39,13 +39,18 @@ export default {
     components: {
         Item, TinyButton
     },
+    computed: {
+        optionValue() {
+            return this.item.user.option.value
+        }
+    },
     methods: {
         clickRemove() {
-            removeHistory(this.item.user.option.value)
+            removeHistory(this.optionValue)
             this.updateList()
         },
         clickPin() {
-            pinAction(!this.item.isPinned, this.item.user.option.value)
+            pinAction(!this.item.isPinned, this.optionValue)
             this.updateList()
         },
         updateList() {
