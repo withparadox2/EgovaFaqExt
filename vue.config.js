@@ -7,7 +7,7 @@ module.exports = {
         return {
             plugins: [
                 new CopyWebpackPlugin([{
-                    from: 'src/*(manifest.json|popup.html|popup.js|favicon.png|background.js|content.css)',
+                    from: 'src/*(manifest.json|popup.html|popup.js|favicon.png|background.js)',
                     to: './',
                     transformPath(targePath, absolutePath) {
                         return Promise.resolve(targePath.replace('src/', ''))
