@@ -1,5 +1,8 @@
 <template>
-    <button class="item-button" :class="[type]"><slot></slot></button>
+  <button class="item-button"
+          :class="[type]">
+    <slot></slot>
+  </button>
 </template>
 <style scoped>
 .item-button {
@@ -39,11 +42,11 @@
 </style>
 <script>
 export default {
-    props: {
-        type: {
-            type: String, // danger, normal, light
-            default: 'normal'
-        }
+  props: {
+    type: {
+      type: String, // danger, normal, light
+      default: "normal"
     }
+  }
 }
 </script>

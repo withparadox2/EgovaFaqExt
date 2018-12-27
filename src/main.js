@@ -3,7 +3,7 @@ import App from './view/Dialog.vue'
 import { parseUserListFromNode } from './js/data-parser'
 
 function checkAndUpdate() {
-  let selectNode = document.querySelector("#issue_assigned_to_id")
+  let selectNode = document.querySelector('#issue_assigned_to_id')
   if (!selectNode) {
     return
   }
@@ -16,7 +16,7 @@ function checkAndUpdate() {
 
   let selectBtn = buildSelectButton()
   selectNode.parentElement.appendChild(selectBtn)
-  selectBtn.onclick = function (event) {
+  selectBtn.onclick = function(event) {
     if (!document.querySelector('#faq-root')) {
       showSelectPopup()
       bindView()
@@ -41,7 +41,7 @@ function showSelectPopup() {
 
 function bindView() {
   new Vue({
-    render: h => h(App),
+    render: h => h(App)
   }).$mount('#faq-root')
 }
 

@@ -1,8 +1,10 @@
 <template>
-    <div class="value-title">
-        <div class="divider"></div>
-        <div class="content"><slot></slot></div>
+  <div class="value-title">
+    <div class="divider"></div>
+    <div class="content">
+      <slot></slot>
     </div>
+  </div>
 </template>
 <style scoped>
 .value-title {

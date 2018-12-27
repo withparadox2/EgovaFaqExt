@@ -1,9 +1,10 @@
 <template>
-    <div class="value-item">
-        <div class="bg-node" />
-        <span class="pin-icon" v-show="item.isPinned" />
-        <span v-html="htmlText"></span>
-    </div>
+  <div class="value-item">
+    <div class="bg-node" />
+    <span class="pin-icon"
+          v-show="item.isPinned" />
+    <span v-html="htmlText"></span>
+  </div>
 </template>
 <style scoped>
 .value-item {
@@ -50,22 +51,25 @@
 
 <script>
 export default {
-    props: {
-        item: {
-            type: Object
-        },
-        highlightText: {
-            type: String
-        }
+  props: {
+    item: {
+      type: Object
     },
-    computed: {
-        htmlText() {
-            var text = this.item.label
-            if (this.highlightText) {
-                text = text.toLowerCase().split(this.highlightText.toLowerCase()).join('<span class="highlight">' + this.highlightText + '</span>')
-            }
-            return text
-        }
+    highlightText: {
+      type: String
     }
+  },
+  computed: {
+    htmlText() {
+      var text = this.item.label
+      if (this.highlightText) {
+        text = text
+          .toLowerCase()
+          .split(this.highlightText.toLowerCase())
+          .join('<span class="highlight">' + this.highlightText + "</span>")
+      }
+      return text
+    }
+  }
 }
 </script>
