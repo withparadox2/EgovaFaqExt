@@ -67,14 +67,16 @@ export default {
   methods: {
     clickRemove() {
       removeHistory(this.optionValue)
-      this.updateList()
+      this.$emit("removeItem", this.item)
     },
     clickPin() {
-      pinAction(!this.item.isPinned, this.optionValue)
-      this.updateList()
-    },
-    updateList() {
-      this.$emit("updateAction")
+      let isPin = !this.item.isPinned
+      pinAction(isPin, this.optionValue)
+      this.$set(this.item, 'isPinned', isPin)
+      if (isPin) {
+        this.$set(this.item, 'pinTime', Date.now())
+      }
+      this.$emit("pinAction", this.item)
     }
   }
 }

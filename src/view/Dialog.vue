@@ -13,13 +13,20 @@
       </div>
       <div class="faq-value-box"
            id="value-box-base">
-        <div v-show="showHistory">
+        <div v-show="showHistory"
+             class="history-wrapper">
           <item-title>历史记录</item-title>
-          <history-item v-for="(item, index) in historyList"
-                        :key="index"
-                        :item="item"
-                        @updateAction="updateHistoryList"
-                        @click.native="clickItem(item.user)"></history-item>
+          <transition-group name="history-list"
+                            tag="div">
+            <history-item v-for="(item, index) in historyList"
+                          :key="item.user.option.value"
+                          :item="item"
+                          @updateAction="updateHistoryList"
+                          @removeItem="removeHistoryItem($event)"
+                          @pinAction="pinAction($event)"
+                          @click.native="clickItem(item.user, index)"></history-item>
+          </transition-group>
+
         </div>
         <item-title>{{searchText ? '搜索结果' : '人员列表'}}</item-title>
         <item v-for="item in dataList"
@@ -94,7 +101,7 @@ input:focus {
 .faq-box .faq-value-box {
   position: absolute;
   overflow-y: auto;
-  position: absolute;
+  overflow-x: hidden;
   top: 85px;
   right: 0px;
   bottom: 0px;
@@ -123,11 +130,27 @@ input:focus {
   background-color: rgb(98, 141, 182);
   border-radius: 5px;
 }
+
+.history-list-enter-active {
+  transition: all 1s;
+}
+.history-list-leave-active {
+  transition: all 1s;
+  position: absolute;
+  width: 100%;
+}
+.history-list-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.history-list-move {
+  transition: transform 1s;
+}
 </style>
 <script>
 import { getUserList } from "../js/data-parser"
 import { closeDialog } from "../js/helper"
-import { updateHistory, loadHistoryList } from "../js/history"
+import { updateHistory, loadHistoryList, orderHistoryList } from "../js/history"
 
 import Item from "./Item.vue"
 import ItemTitle from "./ItemTitle.vue"
@@ -161,7 +184,8 @@ export default {
     close() {
       closeDialog()
     },
-    clickItem(user) {
+    clickItem(user, index) {
+      this.historyList.splice(index, 1)
       user.option.selected = true
       updateHistory(user.option.value)
       this.close()
@@ -173,6 +197,16 @@ export default {
           return store
         }, {})
       )
+    },
+    removeHistoryItem(item) {
+      let indexToRemove = this.historyList.indexOf(item)
+      if (indexToRemove >= 0) {
+        this.historyList.splice(indexToRemove, 1)
+      }
+    },
+    pinAction(item) {
+      console.log(item.isPinned)
+      orderHistoryList(this.historyList)
     }
   },
   components: {
