@@ -76,7 +76,7 @@ export default {
       if (isPin) {
         this.$set(this.item, 'pinTime', Date.now())
       }
-      this.$emit("pinAction", this.item)
+      this.$emit("pinAction")
     }
   }
 }

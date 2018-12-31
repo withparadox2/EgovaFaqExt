@@ -204,8 +204,7 @@ export default {
         this.historyList.splice(indexToRemove, 1)
       }
     },
-    pinAction(item) {
-      console.log(item.isPinned)
+    pinAction() {
       orderHistoryList(this.historyList)
     }
   },
