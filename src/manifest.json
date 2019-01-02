@@ -20,9 +20,6 @@
             "matches": [
                 "http://faq.egova.com.cn:7777/redmine/*"
             ],
-            "css": [
-                "content.css"
-            ],
             "js": [
                 "./js/content.js"
             ]
