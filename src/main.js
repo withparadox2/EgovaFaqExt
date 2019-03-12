@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './view/Dialog.vue'
 import { parseUserListFromNode } from './js/data-parser'
+import { closeDialog, isDialogShowing } from './js/helper'
 
 function checkAndUpdate() {
   let selectNode = document.querySelector('#issue_assigned_to_id')
@@ -16,7 +17,7 @@ function checkAndUpdate() {
 
   let selectBtn = buildSelectButton()
   selectNode.parentElement.appendChild(selectBtn)
-  selectBtn.onclick = function(event) {
+  selectBtn.onclick = function (event) {
     if (!document.querySelector('#faq-root')) {
       showSelectPopup()
       bindView()
@@ -47,3 +48,11 @@ function bindView() {
 
 checkAndUpdate()
 setInterval(checkAndUpdate, 3000)
+
+document.addEventListener('keyup', (event) => {
+  if (event.key === 'Escape') {
+    if (isDialogShowing()) {
+      closeDialog()
+    }
+  }
+}, false);
