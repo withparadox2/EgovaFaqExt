@@ -7,7 +7,15 @@ function User(label, option) {
   this.option = option
 }
 
-export function parseUserListFromNode(node) {
+export function parseUserListFromNode(node, newMode) {
+  if (newMode) {
+    return parseUserListFromNodeNew(node)
+  } else {
+    return parseUserListFromNodeOld(node)
+  }
+}
+
+function parseUserListFromNodeOld(node) {
   userList = []
   function parseOptions(options, label) {
     for (let i = 0; i < options.length; i++) {
@@ -22,6 +30,32 @@ export function parseUserListFromNode(node) {
         }
       } else if (option.nodeName == 'OPTGROUP') {
         label = (label ? label + ',' : '') + option.label
+        parseOptions(option.children, label)
+      }
+    }
+  }
+  parseOptions(node.children || [], null)
+  return userList
+}
+
+function parseUserListFromNodeNew(node) {
+  userList = []
+  function parseOptions(options, label) {
+    for (let i = 0; i < options.length; i++) {
+      let option = options[i]
+      if (option.classList.contains('option')) {
+        let showText = option.innerText
+        if (label) {
+          showText = '【' + label + '】' + showText
+        }
+        if (showText && showText.replace(/^\s+|\s+$/g, '')) {
+          // 兼容旧的选择器
+          option.value = option.getAttribute("data-value")
+          userList.push(new User(showText, option))
+        }
+      } else if (option.classList.contains('optgroup')) {
+        let partLabel = option.getAttribute("data-group")
+        label = (label ? label + ',' : '') + (partLabel ? partLabel : '组')
         parseOptions(option.children, label)
       }
     }

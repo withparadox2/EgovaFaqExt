@@ -5,6 +5,16 @@ import { closeDialog, isDialogShowing } from './js/helper'
 
 function checkAndUpdate() {
   let selectNode = document.querySelector('#issue_assigned_to_id')
+  let newStyle = false
+  if (!selectNode) {
+    return
+  }
+
+  if (selectNode.style.display == 'none') {
+    selectNode = selectNode.parentElement.querySelector('.selectize-control.single')
+    newStyle = true
+  }
+
   if (!selectNode) {
     return
   }
@@ -13,10 +23,24 @@ function checkAndUpdate() {
     return
   }
 
-  parseUserListFromNode(selectNode)
+  if (newStyle) {
+    let selectWrapperNode = selectNode.querySelector('.selectize-dropdown-content')
+    if (selectWrapperNode) {
+      parseUserListFromNode(selectWrapperNode, true)
+    } else {
+      return
+    }
+  } else {
+    parseUserListFromNode(selectNode, false)
+  }
 
   let selectBtn = buildSelectButton()
-  selectNode.parentElement.appendChild(selectBtn)
+  if (newStyle) {
+    selectBtn.style.verticalAlign = 'top'
+    selectNode.appendChild(selectBtn)
+  } else {
+    selectNode.parentElement.appendChild(selectBtn)
+  }
   selectBtn.onclick = function (event) {
     if (!document.querySelector('#faq-root')) {
       showSelectPopup()

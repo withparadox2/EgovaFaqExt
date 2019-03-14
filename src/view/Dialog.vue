@@ -185,7 +185,20 @@ export default {
       closeDialog()
     },
     clickItem(user, index) {
+      console.log(user)
       this.historyList.splice(index, 1)
+      let visibleNode = document.querySelector('#issue_assigned_to_id').parentElement.querySelector('.selectize-control.single .selectize-input .item')
+      if (visibleNode) {
+        visibleNode.setAttribute('data-value', user.option.value)
+        visibleNode.innerText = user.label
+
+        let hideNode = document.querySelector('#issue_assigned_to_id option')
+        if (hideNode) {
+          hideNode.value = user.option.value
+          hideNode.innerText = user.label
+        }
+      }
+     
       user.option.selected = true
       updateHistory(user.option.value)
       this.close()
