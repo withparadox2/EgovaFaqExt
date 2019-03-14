@@ -1,6 +1,6 @@
 {
     "name": "Egova Faq",
-    "version": "1.01",
+    "version": "1.02",
     "manifest_version": 2,
     "description": "Fast fast",
     "browser_action": {
