@@ -52,7 +52,7 @@ export default {
       if (this.highlightText) {
         text = text
           .toLowerCase()
-          .split(this.highlightText.toLowerCase())
+          .split(this.highlightText)
           .join('<span class="highlight">' + this.highlightText + "</span>")
       }
       return text

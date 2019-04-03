@@ -169,7 +169,7 @@ export default {
       let list = getUserList()
       return this.searchText
         ? list.filter(
-            user => user.label.indexOf(this.searchText.toLowerCase()) >= 0
+            user => user.label.indexOf(this.searchText) >= 0
           )
         : list
     },
