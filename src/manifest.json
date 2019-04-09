@@ -18,7 +18,7 @@
     "content_scripts": [
         {
             "matches": [
-                "http://faq.egova.com.cn*"
+                "http://faq.egova.com.cn:7777/*"
             ],
             "js": [
                 "./js/content.js"
