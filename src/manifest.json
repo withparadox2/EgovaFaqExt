@@ -4,17 +4,8 @@
     "manifest_version": 2,
     "description": "An assisted tool for egova faq",
     "browser_action": {
-        "default_icon": "favicon.png",
-        "default_popup": "popup.html"
+        "default_icon": "favicon.png"
     },
-    "background": {
-        "scripts": ["background.js"]
-    },
-    "permissions": [
-        "webRequest",
-        "*://developer.android.com/*",
-        "webRequestBlocking"
-    ],
     "content_scripts": [
         {
             "matches": [
