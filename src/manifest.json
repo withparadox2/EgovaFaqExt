@@ -15,5 +15,8 @@
                 "./js/content.js"
             ]
         }
+    ],
+    "web_accessible_resources": [
+        "images/ic-clear.png"
     ]
 }

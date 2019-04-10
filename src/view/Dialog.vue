@@ -8,8 +8,17 @@
                        @click.native="close"
                        type="light">关闭</tiny-button>
         </div>
-        <input placeholder="请输入姓名..."
-               v-model="searchText">
+        <div class="input-row">
+          <input placeholder="请输入姓名..."
+                 v-model="searchText">
+          <transition name="btn-clear">
+            <div class="btn-clear-input"
+                 @click="searchText=''"
+                 v-show="searchText"
+                 :style="{ backgroundImage: `url('${clearIconPath}')` }"></div>
+          </transition>
+        </div>
+
       </div>
       <div class="faq-value-box"
            id="value-box-base">
@@ -78,13 +87,40 @@
   color: white;
 }
 
+.input-row {
+  width: 100%;
+  height: 30px;
+  position: relative;
+  margin-top: 10px;
+}
+
+.btn-clear-input {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%) translateX(50%);
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.btn-clear-enter-active, .btn-clear-leave-active {
+  transition: all .2s ease;
+}
+
+.btn-clear-enter, .btn-clear-leave-to {
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+}
+
 input {
   padding: 0px 15px;
   width: 100%;
   height: 30px;
   box-sizing: border-box;
   border: 1px solid #aaa;
-  margin-top: 10px;
   border-radius: 15px;
   font-size: 12px;
   outline: none;
@@ -157,6 +193,8 @@ import ItemTitle from "./ItemTitle.vue"
 import TinyButton from "./TinyButton.vue"
 import HistoryItem from "./HistoryItem.vue"
 
+import IconClear from "../images/ic-clear.png"
+
 export default {
   data() {
     return {
@@ -168,13 +206,16 @@ export default {
     dataList() {
       let list = getUserList()
       return this.searchText
-        ? list.filter(
-            user => user.label.indexOf(this.searchText) >= 0
-          )
+        ? list.filter(user => user.label.indexOf(this.searchText) >= 0)
         : list
     },
     showHistory() {
       return !this.searchText && this.historyList.length > 0
+    },
+    clearIconPath() {
+      return chrome && chrome.extension
+        ? chrome.extension.getURL("images/ic-clear.png")
+        : IconClear
     }
   },
   mounted() {
@@ -187,18 +228,22 @@ export default {
     clickItem(user, index) {
       console.log(user)
       this.historyList.splice(index, 1)
-      let visibleNode = document.querySelector('#issue_assigned_to_id').parentElement.querySelector('.selectize-control.single .selectize-input .item')
+      let visibleNode = document
+        .querySelector("#issue_assigned_to_id")
+        .parentElement.querySelector(
+          ".selectize-control.single .selectize-input .item"
+        )
       if (visibleNode) {
-        visibleNode.setAttribute('data-value', user.option.value)
+        visibleNode.setAttribute("data-value", user.option.value)
         visibleNode.innerText = user.label
 
-        let hideNode = document.querySelector('#issue_assigned_to_id option')
+        let hideNode = document.querySelector("#issue_assigned_to_id option")
         if (hideNode) {
           hideNode.value = user.option.value
           hideNode.innerText = user.label
         }
       }
-     
+
       user.option.selected = true
       updateHistory(user.option.value)
       this.close()

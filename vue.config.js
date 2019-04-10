@@ -6,8 +6,14 @@ module.exports = {
         config.entry = {
             content: ["./src/main.js"]
         }
-        let plugins = [ new CopyWebpackPlugin([{
+        let plugins = [new CopyWebpackPlugin([{
             from: 'src/*(manifest.json|popup.html|popup.js|favicon.png|background.js)',
+            to: './',
+            transformPath(targePath, absolutePath) {
+                return Promise.resolve(targePath.replace('src/', ''))
+            }
+        }, {
+            from: 'src/images/*',
             to: './',
             transformPath(targePath, absolutePath) {
                 return Promise.resolve(targePath.replace('src/', ''))
@@ -16,11 +22,11 @@ module.exports = {
 
         if (process.env.NODE_ENV === 'production') {
             plugins.push(new ZipPlugin({
-                path: path.join(__dirname,'./dist'),
+                path: path.join(__dirname, './dist'),
                 filename: 'dist.zip'
             }))
         }
-        
+
         return {
             plugins
         }
