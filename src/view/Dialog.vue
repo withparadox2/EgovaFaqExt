@@ -132,6 +132,7 @@ input:focus {
 
 .faq-close {
   float: right;
+  cursor: pointer;
 }
 
 .faq-box .faq-value-box {

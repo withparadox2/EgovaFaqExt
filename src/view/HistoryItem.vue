@@ -39,6 +39,7 @@
 .btn-pin {
   float: right;
   margin-top: 6px;
+  cursor: pointer;
 }
 .btn-pin {
   margin-right: 10px;
