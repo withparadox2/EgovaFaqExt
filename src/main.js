@@ -54,6 +54,7 @@ function buildSelectButton() {
   let btn = document.createElement('button')
   btn.id = 'btn-faq-show-dialog'
   btn.style.marginLeft = '10px'
+  btn.style.position = 'absolute'
   btn.textContent = '选择'
   return btn
 }
